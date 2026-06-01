@@ -1,0 +1,28 @@
+# TeachDiffusion LoRA — 720p (requires A100 80GB)
+model:
+  name: "wan2.2"
+  pretrained_path: "Wan-AI/Wan2.2-T2V-14B"
+  dtype: "bfloat16"
+lora:
+  rank: 64
+  alpha: 64
+  dropout: 0.05
+  target_modules: ["to_q", "to_k", "to_v", "to_out.0"]
+training:
+  batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 5.0e-5
+  max_train_steps: 8000
+  save_steps: 500
+  mixed_precision: "bf16"
+  gradient_checkpointing: true
+  seed: 42
+data:
+  dataset_path: "../teachdiffusion-data/data/filtered"
+  manifest_file: "filtered_manifest.json"
+  resolution: 720
+  num_frames: 16
+  fps: 8
+output:
+  output_dir: "./outputs/720p"
+  logging_dir: "./outputs/logs"
